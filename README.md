@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Yashraj’s Hackathon Project – PHC Live</title>
+<title>PHC Pulse – Live Health Centre Control Room</title>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#EEF4F1;--card:#fff;--ink:#10201A;--mute:#53675F;--g:#0F4C3A;--g2:#1E7A5C;--sun:#F2A007;--red:#C8372D;--amb:#D98A00;--ok:#1E7A5C;--line:#D3E0DA;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -11,14 +11,6 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.5}
 button{font:inherit;cursor:pointer}
 button:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
-.hero{min-height:100vh;min-height:100dvh;background:var(--g);color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:32px 20px;position:relative;overflow:hidden}
-.hero:before{content:"+";position:absolute;font-size:60vw;line-height:1;color:rgba(255,255,255,.05);font-weight:800;right:-10vw;top:-8vw}
-.hero h1{font-size:clamp(2.6rem,9vw,6.4rem);line-height:1;font-weight:800;margin:0 0 18px;letter-spacing:-.03em;max-width:14ch;position:relative}
-.hero h1 span{background:var(--sun);color:#10201A;padding:0 .15em;border-radius:6px}
-.hero p{max-width:46ch;font-size:1.1rem;opacity:.9;margin:0 0 32px;position:relative}
-.btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;position:relative}
-.big{padding:16px 34px;border-radius:999px;border:0;font-size:1.15rem;font-weight:800}
-.big.p{background:var(--sun);color:#10201A}.big.s{background:#fff;color:var(--g)}
 .nav{position:sticky;top:0;z-index:5;background:var(--g);color:#fff;display:flex;gap:8px;align-items:center;padding:10px 16px;padding-top:calc(10px + env(safe-area-inset-top,0px))}
 .nav b{margin-right:auto}.nav button{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:6px 14px}
 .nav button.on{background:var(--sun);color:#10201A;border-color:var(--sun)}
@@ -26,10 +18,6 @@ main{max-width:1000px;margin:0 auto;padding:24px 16px 60px}
 h2{font-size:clamp(1.8rem,5vw,2.8rem);margin:.2em 0;letter-spacing:-.02em;line-height:1.1}
 .lead{color:var(--mute);max-width:60ch}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin:16px 0}
-.prob{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:18px;align-items:start}
-@media(max-width:700px){.prob{grid-template-columns:1fr}}
-.prob svg{width:100%;height:auto;border-radius:10px;display:block}
-.prob h3{margin:0 0 6px;font-size:1.4rem}
 .bar{display:grid;grid-template-columns:110px 1fr 48px;gap:8px;align-items:center;font-size:.85rem;margin:5px 0}
 .bar i{display:block;height:14px;border-radius:7px;background:var(--g2)}
 .bar .t{background:var(--line);border-radius:7px}
@@ -71,23 +59,6 @@ details pre{background:var(--bg);border:1px solid var(--line);border-radius:8px;
 </style></head><body>
 <div id="app"></div>
 <script>
-var P=['Medicine stock-outs','Unmanaged patient footfall','Local politics & doctor postings','Unclear bed availability','Unpredictable doctor & staff attendance','Staff qualification gaps'];
-var PD=[
-['Shelves go empty with no warning. A mother walks 12 km and gets a prescription slip instead of medicine, because stock is counted by hand in a register and nobody sees the gap until it is too late.','Days stocked out per year (%)',[['ORS',24],['Paracetamol',18],['Antibiotics',31],['Insulin',42],['Anti-venom',55]],'%'],
-['Hundreds arrive on Monday mornings and festival-season fever weeks, with one doctor and no token system. Queues, shouting and walk-outs follow. Nobody knows the peak before it hits.','Average OPD patients by weekday',[['Mon',240],['Tue',180],['Wed',150],['Thu',140],['Fri',160],['Sat',210]],''],
-['Postings and transfers are often shaped by local influence. Doctors lobby to stay near towns, so remote centres sit vacant. Accountability is blurred and complaints go unrecorded.','Sanctioned posts vacant by area (%)',[['Town-side',8],['Mid',22],['Remote',41],['Tribal',54]],'%'],
-['A critical patient is sent to a CHC that has no free bed. The family finds out only after driving two hours. No one can check bed status before referral.','Beds at a typical CHC (30 sanctioned)',[['Sanctioned',30],['Working',22],['Occupied',20],['Free',2]],''],
-['The doctor is on “official duty”, on leave or simply late. Villagers learn this at the gate. Without a roster anyone can see, absence stays invisible.','Doctor present on a given day (%)',[['Week 1',78],['Week 2',64],['Week 3',70],['Week 4',58]],'%'],
-['Posts for lab technicians and pharmacists are filled on paper but not in practice. Tests like malaria and Hb are skipped because nobody is qualified to run them.','Sanctioned posts actually filled (%)',[['Doctor',62],['Nurse',71],['Pharmacist',55],['Lab tech',48]],'%']
-];
-function scene(i){var s='<svg viewBox="0 0 320 190" role="img" aria-label="Illustration: '+P[i]+'"><rect width="320" height="190" fill="#CFE3D9"/><rect y="140" width="320" height="50" fill="#9DB9AB"/><rect x="20" y="30" width="280" height="110" rx="4" fill="#F4F0E3"/><rect x="20" y="30" width="280" height="14" fill="#C8372D"/><rect x="152" y="12" width="16" height="30" fill="#fff"/><rect x="145" y="19" width="30" height="16" fill="#fff"/><rect x="152" y="12" width="16" height="30" fill="#C8372D"/><rect x="145" y="19" width="30" height="16" fill="#C8372D"/>';
-if(i==0){for(var r=0;r<3;r++){s+='<rect x="40" y="'+(58+r*28)+'" width="240" height="5" fill="#8a6a45"/>';for(var c=0;c<6;c++)if((r*6+c)%4==0||r==0&&c<2)s+='<rect x="'+(48+c*38)+'" y="'+(40+r*28+10)+'" width="22" height="16" rx="3" fill="#1E7A5C"/>'}s+='<text x="160" y="170" text-anchor="middle" font-size="13" fill="#10201A" font-weight="700">Empty shelves, no warning</text>'}
-if(i==1){for(var k=0;k<22;k++){var x=30+(k%11)*26,y=100+Math.floor(k/11)*26;s+='<circle cx="'+x+'" cy="'+y+'" r="7" fill="#'+(k%3?'1E7A5C':'D98A00')+'"/><rect x="'+(x-6)+'" y="'+(y+7)+'" width="12" height="12" rx="4" fill="#'+(k%3?'0F4C3A':'8a5a00')+'"/>'}s+='<text x="160" y="178" text-anchor="middle" font-size="13" fill="#10201A" font-weight="700">One doctor. One long queue.</text>'}
-if(i==2){s+='<rect x="60" y="80" width="90" height="50" fill="#fff" stroke="#10201A"/><rect x="180" y="80" width="90" height="50" fill="#fff" stroke="#10201A"/><text x="105" y="110" text-anchor="middle" font-size="12">Post: VACANT</text><text x="225" y="110" text-anchor="middle" font-size="12">Transfer request</text><path d="M150 105h30" stroke="#C8372D" stroke-width="3"/><text x="160" y="170" text-anchor="middle" font-size="13" fill="#10201A" font-weight="700">Postings shaped by influence</text>'}
-if(i==3){for(var b=0;b<4;b++){s+='<rect x="'+(34+b*68)+'" y="95" width="56" height="26" rx="4" fill="#fff" stroke="#10201A"/><rect x="'+(34+b*68)+'" y="85" width="14" height="22" fill="#'+(b<3?'C8372D':'1E7A5C')+'"/>'}s+='<text x="160" y="170" text-anchor="middle" font-size="13" fill="#10201A" font-weight="700">Which bed is free? Nobody knows.</text>'}
-if(i==4){s+='<rect x="120" y="90" width="80" height="14" fill="#8a6a45"/><rect x="130" y="104" width="6" height="30" fill="#8a6a45"/><rect x="184" y="104" width="6" height="30" fill="#8a6a45"/><rect x="140" y="55" width="40" height="36" rx="4" fill="#fff" stroke="#10201A" stroke-dasharray="4"/><text x="160" y="78" text-anchor="middle" font-size="22">?</text><text x="160" y="170" text-anchor="middle" font-size="13" fill="#10201A" font-weight="700">Empty chair at 10 am</text>'}
-if(i==5){s+='<rect x="70" y="70" width="70" height="60" fill="#fff" stroke="#10201A"/><text x="105" y="105" text-anchor="middle" font-size="12">Lab: Hb</text><rect x="180" y="70" width="70" height="60" fill="#fff" stroke="#C8372D" stroke-width="2"/><text x="215" y="105" text-anchor="middle" font-size="12" fill="#C8372D">No technician</text><text x="160" y="170" text-anchor="middle" font-size="13" fill="#10201A" font-weight="700">Tests skipped, patients referred</text>'}
-return s+'</svg>'}
 function bars(d,u){var m=Math.max.apply(null,d.map(function(x){return x[1]}));return d.map(function(x){return '<div class="bar"><span>'+x[0]+'</span><span class="t"><i style="width:'+(x[1]/m*100)+'%"></i></span><b>'+x[1]+u+'</b></div>'}).join('')}
 
 var KEY='phc-yashraj-v1';
@@ -95,8 +66,6 @@ function fresh(){var n=Date.now();return{stock:[{n:'Paracetamol 500mg',q:420,min
 var S;try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}if(!S||!S.stock)S=fresh();
 function save(k){S.u[k]=Date.now();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}render()}
 function ago(t){var m=Math.round((Date.now()-t)/60000);return m<1?'just now':m<60?m+' min ago':new Date(t).toLocaleString()}
-var page='home';
-function go(p){page=p;window.scrollTo(0,0);render()}
 
 function stockAct(i,d){S.stock[i].q=Math.max(0,S.stock[i].q+d);save('s')}
 function foot(d){S.foot.c=Math.max(0,S.foot.c+d);save('f')}
@@ -217,12 +186,8 @@ var any=0;A.forEach(function(x){if(x.stale.length){any=1;h+='<div class="ts"><b>
 if(!any)h+='<div class="ts">All records are within their update windows.</div>';
 return h+'</div>'}
 function render(){var h='';
-if(page=='home'){h='<section class="hero"><h1>Welcome to <span>Yashraj’s</span> Hackathon Project</h1><p>Real-time health centre management for village PHCs and CHCs: no more empty shelves, unseen queues or empty chairs.</p><div class="btns"><button class="big p" onclick="go(\'problem\')">The Problem</button><button class="big s" onclick="go(\'solution\')">The Solution</button></div></section>'}
-else{h='<div class="nav"><b>PHC Live</b><button onclick="go(\'home\')">Home</button><button class="'+(page=='problem'?'on':'')+'" onclick="go(\'problem\')">Problem</button><button class="'+(page=='solution'?'on':'')+'" onclick="go(\'solution\')">Solution</button></div><main>';
-if(page=='problem'){h+='<h2>What a PHC faces every single day</h2><p class="lead">Six gaps keep village health centres from working as they should. All of them come from one root cause: nobody can see the centre’s real situation in time.</p>';
-PD.forEach(function(d,i){h+='<div class="card prob"><div>'+scene(i)+'</div><div><h3>'+P[i]+'</h3><p>'+d[0]+'</p><b style="font-size:.9rem">'+d[1]+'</b>'+bars(d[2],d[3])+'</div></div>'});
-h+='<p class="note">Illustrations are drawn scenes, and chart figures are illustrative for this demo. Replace them with your district’s HMIS/NHM numbers before final submission.</p><div class="btns" style="margin-top:24px"><button class="big p" onclick="go(\'solution\')">See the solution</button></div>'}
-else{var al=alerts();h+='<h2>Live PHC control room</h2><p class="lead">Everything below works. Tap the buttons and watch alerts update instantly. Data saves in this browser.</p>';
+h='<div class="nav"><b>PHC Pulse</b><span class="ts" style="color:#fff;opacity:.85">Live health centre control room</span></div><main>';
+{var al=alerts();h+='<h2>Live PHC control room</h2><p class="lead">Everything below works. Tap the buttons and watch alerts update instantly. Data saves in this browser.</p>';
 h+=briefUI()+fleetUI();
 h+='<div class="card"><h3 style="margin-top:0">Alerts ('+al.filter(function(x){return x[0]!='o'}).length+')</h3><div class="alerts">'+al.map(function(x){return '<div class="al '+x[0]+'">'+x[1]+'<small>'+x[2]+'</small></div>'}).join('')+'</div></div>';
 h+=actionCenter(al);
@@ -237,7 +202,7 @@ h+='</table></div><p class="ts">Tap to toggle. Last updated: '+ago(S.u.d)+'</p><
 var hp=happy(),hc=hp>=65?'var(--ok)':hp>=40?'var(--amb)':'var(--red)',F=['😠','🙁','😐','🙂','😍'],tv=S.hap.reduce(function(a,b){return a+b},0);
 h+='<div class="card"><h3 style="margin-top:0">Village happiness index</h3><div class="num" style="color:'+hc+'">'+hp+'<span style="font-size:1.2rem">/100</span></div><div class="meter" style="margin:10px 0"><i style="width:'+hp+'%;background:'+hc+'"></i></div><p class="ts">'+tv+' villagers rated this PHC. How was your visit? Tap one:</p><div class="row">'+F.map(function(f,i){return '<button class="face" aria-label="Rate '+(i+1)+' of 5" onclick="vote('+i+')">'+f+'</button>'}).join('')+'</div>'+bars(F.map(function(f,i){return [f+' '+(i+1),S.hap[i]]}),'')+'<div class="ts">Last updated: '+ago(S.u.h)+'</div></div>';
 h+='<div class="row"><button class="sm" style="padding:0 14px;width:auto" onclick="reset()">Reset demo data</button></div>'}
-h+='</main>'}
+h+='</main>';
 document.getElementById('app').innerHTML=h}
 render();
 </script></body></html>
